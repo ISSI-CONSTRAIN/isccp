@@ -61,7 +61,7 @@ bucket_fmt = {
     "hgg": f"/data/{product_family}/{product}/{YYYYmm}/*",
     "hxg": f"/data/{product_family}/{product}/{YYYYmm}/*",
 }
-bucket_pattern = bucket + bucket_fmt[product_family]
+bucket_pattern = bucket + bucket_fmt[product]
 storage_options = {
     "anon": True,
     "default_fill_cache": False,
