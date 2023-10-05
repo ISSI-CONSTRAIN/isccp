@@ -32,8 +32,9 @@ parser.add_argument(
 parser.add_argument(
     "--product",
     help=(
-        "Product. Allowed options: hgh (aggregated by hour+month), hgg (no aggregation),"
-        " hgm (aggregated by month), hxg."
+        "Product. Allowed options: hgh (H-series gridded monthly by hour), hgg (H-series"
+        " gridded global), hgm (H-series gridded monthly), hxg (H-series pixel level"
+        " gridded)."
     ),
 )
 parser.add_argument(
