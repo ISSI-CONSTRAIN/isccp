@@ -1,0 +1,16 @@
+name: isccp
+channels:
+  - conda-forge
+dependencies:
+  - cdsapi
+  - pre-commit
+  - ca-certificates
+  - certifi
+  - openssl
+  - dvc
+  - xarray
+  - netcdf4
+  - zarr
+  - dvc-s3
+  - kerchunk
+  - h5py
