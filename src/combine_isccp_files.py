@@ -68,7 +68,4 @@ storage_options = {
     "default_cache_type": "first",
 }
 
-urls = kh.collect_urls(s3, bucket_pattern)
-references = kh.get_references(urls, storage_options)
-combine_ref = kh.concat_references(references)
-kh.write_reference(combine_ref, reference_fn)
+kh.create_references(s3, bucket_pattern, storage_options, reference_fn)
