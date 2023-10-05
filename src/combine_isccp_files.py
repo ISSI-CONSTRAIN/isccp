@@ -31,7 +31,10 @@ parser.add_argument(
 )
 parser.add_argument(
     "--product",
-    help="Product. Allowed options: hgh, hgg, hgm, hxg.",
+    help=(
+        "Product. Allowed options: hgh (aggregated by hour+month), hgg (no aggregation),"
+        " hgm (aggregated by month), hxg."
+    ),
 )
 parser.add_argument(
     "--yyyymm",
@@ -51,7 +54,13 @@ product = args.product  # isccp-basic: hgh, hgg, hgm, isccp: hgh, hgg, hgm, hxg
 reference_fn = args.reference
 YYYYmm = args.yyyymm
 bucket = "s3://noaa-cdr-cloud-properties-isccp-pds"
-bucket_pattern = bucket + f"/data/{product_family}/{product}/{YYYYmm}/*"
+bucket_fmt = {
+    "hgh": f"/data/{product_family}/{product}/{YYYYmm}/*",
+    "hgm": f"/data/{product_family}/{product}/*",
+    "hgg": f"/data/{product_family}/{product}/{YYYYmm}/*",
+    "hxg": f"/data/{product_family}/{product}/{YYYYmm}/*",
+}
+bucket_pattern = bucket + bucket_fmt[product_family]
 storage_options = {
     "anon": True,
     "default_fill_cache": False,
