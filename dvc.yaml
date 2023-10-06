@@ -19,4 +19,5 @@ stages:
     - src/combine_isccp_files.py
     - src/kerchunk_helpers.py
     outs:
-    - references/isccp_basic_hgm.json.zip
+    - references/isccp_basic_hgm.json.zip:
+        remote: isccp_gdrive
