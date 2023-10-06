@@ -26,7 +26,7 @@ sources:
     driver: zarr
     description: ISCCP H-Series basic product gridded globally (HGG)
     args:
-      urlpath: reference::zip://references/isccp_basic_hgm.json::https://github.com/ISSI-CONSTRAIN/isccp/raw/main/references/isccp_basic_hgg.json.zip
+      urlpath: reference::zip://references/isccp_basic_hgg.json::https://github.com/ISSI-CONSTRAIN/isccp/raw/main/references/isccp_basic_hgg.json.zip
       storage_options:
         remote_protocol: s3
         remote_options:
