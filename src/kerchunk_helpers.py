@@ -27,6 +27,8 @@ def collect_urls(fs, bucket_pattern):
     """Recursively collect all files in bucket."""
     single_files = sorted(fs.glob(bucket_pattern))
     urls = ["s3://" + p for p in single_files]
+    if len(urls) == 0:
+        raise ValueError("No datasets found.")
     return urls
 
 
