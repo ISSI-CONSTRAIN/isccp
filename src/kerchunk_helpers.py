@@ -25,7 +25,7 @@ def create_references(fs, bucket_pattern, storage_options, fname, format="json")
 
 def collect_urls(fs, bucket_pattern):
     """Recursively collect all files in bucket."""
-    single_files = fs.glob(bucket_pattern)
+    single_files = sorted(fs.glob(bucket_pattern))
     urls = ["s3://" + p for p in single_files]
     return urls
 
