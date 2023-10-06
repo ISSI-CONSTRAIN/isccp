@@ -1,0 +1,24 @@
+description: "ISCCP Intake Data Catalog"
+
+plugins:
+  source:
+    - module: intake_xarray
+
+sources:
+  ISCCP_BASIC_HGH:
+    driver: zarr
+    description: ISCCP H-Series basic product gridded monthly by hour (HGH)
+    args:
+      urlpath: reference://
+      storage_options:
+        fo: references/isccp_basic_hgh.json.zip
+        target_options:
+          compression: zip
+          anon: true
+        remote_protocol: s3
+        remote_options:
+          anon: true
+      consolidated: false
+    metadata:
+      DOI: doi:10.7289/V5QZ281S
+      url: https://www.ncei.noaa.gov/access/metadata/landing-page/bin/iso?id=gov.noaa.ncdc:C00956
