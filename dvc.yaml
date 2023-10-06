@@ -1,0 +1,22 @@
+stages:
+  reference_isccp_basic_hgh:
+    cmd: python src/combine_isccp_files.py --product_family='isccp-basic' --product='hgh' --yyyymm='20*' --reference='references/isccp_basic_hgh.json'
+    deps:
+    - src/combine_isccp_files.py
+    - src/kerchunk_helpers.py
+    outs:
+    - references/isccp_basic_hgh.json.zip
+  reference_isccp_basic_hgg:
+    cmd: python src/combine_isccp_files.py --product_family='isccp-basic' --product='hgg' --yyyymm='2017*' --reference='references/isccp_basic_hgg.json'
+    deps:
+    - src/combine_isccp_files.py
+    - src/kerchunk_helpers.py
+    outs:
+    - references/isccp_basic_hgg.json.zip
+  reference_isccp_basic_hgm:
+    cmd: python src/combine_isccp_files.py --product_family='isccp-basic' --product='hgm' --yyyymm='*' --reference='references/isccp_basic_hgm.json'
+    deps:
+    - src/combine_isccp_files.py
+    - src/kerchunk_helpers.py
+    outs:
+    - references/isccp_basic_hgm.json.zip
