@@ -79,6 +79,7 @@ def concat_references(references, out=None, **kwargs):
         remote_options={"anon": True},
         concat_dims=["time"],
         out=out,
+        **kwargs,
     )
     out_dict = mzz.translate()
     if out is not None:
