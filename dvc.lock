@@ -17,3 +17,20 @@ stages:
       hash: md5
       md5: 8cf51a648dd15e810312a03f21ca82ff
       size: 3073254
+  reference_isccp_basic_hgg:
+    cmd: python src/combine_isccp_files.py --product_family='isccp-basic' --product='hgg'
+      --yyyymm='2017*' --reference='references/isccp_basic_hgg.json'
+    deps:
+    - path: src/combine_isccp_files.py
+      hash: md5
+      md5: 6d4b3fc86e52e17f2e08924642f30781
+      size: 1951
+    - path: src/kerchunk_helpers.py
+      hash: md5
+      md5: d90c1fab818a163a207ff2f3f6b8f6b0
+      size: 3550
+    outs:
+    - path: references/isccp_basic_hgg.json.zip
+      hash: md5
+      md5: a2c2168ce3b346f758bff2aed2a11b97
+      size: 6306203
