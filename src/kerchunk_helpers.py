@@ -11,6 +11,8 @@ from kerchunk.combine import MultiZarrToZarr
 
 
 def create_references(fs, bucket_pattern, storage_options, fname, format="json"):
+    global chunk_sizes
+    chunk_sizes = {}
     urls = collect_urls(fs, bucket_pattern)
     references = get_references(urls, storage_options)
     if format == "json":
@@ -34,7 +36,13 @@ def get_references(urls, storage_options):
     for u in tqdm.tqdm(urls):
         with fsspec.open(u, **storage_options) as inf:
             h5chunks = kerchunk.hdf.SingleHdf5ToZarr(inf, u, inline_threshold=100)
-            references.append(h5chunks.translate())
+            if pre_process(h5chunks.translate()["refs"]) is not None:
+                references.append(h5chunks.translate())
+            else:
+                print(
+                    f"Skipping file {u} as it has inconsistent chunks and cannot be"
+                    " merged without rechunking."
+                )
     return references
 
 
@@ -47,7 +55,21 @@ def reference_fs(fname):
     return out
 
 
-def concat_references(references, out=None):
+def pre_process(refs):
+    global chunk_sizes
+    for k in list(refs):
+        if ".zarray" in k:
+            var = k.replace("/.zarray", "")
+            current_chunks = json.loads(refs[k])["chunks"]
+            if chunk_sizes.get(var, []) == []:
+                chunk_sizes[var] = current_chunks
+            elif chunk_sizes[var] != current_chunks:
+                print(chunk_sizes[var], current_chunks)
+                return None
+    return refs
+
+
+def concat_references(references, out=None, **kwargs):
     """Concatenate references to a single virtual zarr file."""
     mzz = MultiZarrToZarr(
         references,
