@@ -56,10 +56,10 @@ reference_fn = args.reference
 YYYYmm = args.yyyymm
 bucket = "s3://noaa-cdr-cloud-properties-isccp-pds"
 bucket_fmt = {
-    "hgh": f"/data/{product_family}/{product}/{YYYYmm}/*",
-    "hgm": f"/data/{product_family}/{product}/*",
-    "hgg": f"/data/{product_family}/{product}/{YYYYmm}/*",
-    "hxg": f"/data/{product_family}/{product}/{YYYYmm}/*",
+    "hgh": f"/data/{product_family}/{product}/{YYYYmm}/*.nc",
+    "hgm": f"/data/{product_family}/{product}/*{YYYYmm[:4]}.{YYYYmm[4:]}*.nc",
+    "hgg": f"/data/{product_family}/{product}/{YYYYmm}/*.nc",
+    "hxg": f"/data/{product_family}/{product}/{YYYYmm}/*.nc",
 }
 bucket_pattern = bucket + bucket_fmt[product]
 storage_options = {
