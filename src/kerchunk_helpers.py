@@ -1,5 +1,6 @@
 import json
 import os
+import zipfile
 
 import fsspec
 import kerchunk.df
@@ -9,11 +10,14 @@ from fsspec.implementations.reference import LazyReferenceMapper
 from kerchunk.combine import MultiZarrToZarr
 
 
-def create_references(fs, bucket_pattern, storage_options, fname):
+def create_references(fs, bucket_pattern, storage_options, fname, format="json"):
     urls = collect_urls(fs, bucket_pattern)
     references = get_references(urls, storage_options)
-    out = reference_fs(fname)
-    combined_ref = concat_references(references, out)
+    if format == "json":
+        combined_ref = concat_references(references)
+    elif format == "parquet":
+        out = reference_fs(fname)
+        combined_ref = concat_references(references, out)
     write_reference(combined_ref, fname)
 
 
@@ -43,7 +47,7 @@ def reference_fs(fname):
     return out
 
 
-def concat_references(references, out):
+def concat_references(references, out=None):
     """Concatenate references to a single virtual zarr file."""
     mzz = MultiZarrToZarr(
         references,
@@ -53,7 +57,8 @@ def concat_references(references, out):
         out=out,
     )
     out_dict = mzz.translate()
-    out.flush()
+    if out is not None:
+        out.flush()
     return out_dict
 
 
@@ -63,13 +68,19 @@ def convert_json_to_parq(dictionary, fname):
     return
 
 
-def write_reference(dictionary, fname, format="parquet"):
+def write_reference(dictionary, fname, format="json", compression=True):
     """Write reference file to disk."""
     if not os.path.exists(os.path.dirname(fname)):
         os.makedirs(os.path.dirname(fname))
     if format == "json":
-        with open(fname, "w") as fp:
-            json.dump(dictionary, fp)
+        json_str = json.dumps(dictionary)
+        if compression:
+            json_bytes = json_str.encode("utf-8")
+            with zipfile.ZipFile(fname + ".zip", "w") as zfile:
+                zfile.writestr(fname, json_bytes)
+        else:
+            with open(fname, "w") as fp:
+                fp.write(json_str)
     elif format == "parquet":
         convert_json_to_parq(dictionary, fname)
     else:
