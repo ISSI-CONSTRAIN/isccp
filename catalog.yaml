@@ -26,12 +26,8 @@ sources:
     driver: zarr
     description: ISCCP H-Series basic product gridded globally (HGG)
     args:
-      urlpath: reference://
+      urlpath: reference::zip://references/isccp_basic_hgm.json::https://github.com/ISSI-CONSTRAIN/isccp/raw/main/references/isccp_basic_hgg.json.zip
       storage_options:
-        fo: references/isccp_basic_hgg.json.zip
-        target_options:
-          compression: zip
-          anon: true
         remote_protocol: s3
         remote_options:
           anon: true
@@ -43,12 +39,8 @@ sources:
     driver: zarr
     description: ISCCP H-Series basic product gridded monthly (HGM)
     args:
-      urlpath: reference://
+      urlpath: reference::zip://references/isccp_basic_hgm.json::https://github.com/ISSI-CONSTRAIN/isccp/raw/main/references/isccp_basic_hgm.json.zip
       storage_options:
-        fo: references/isccp_basic_hgm.json.zip
-        target_options:
-          compression: zip
-          anon: true
         remote_protocol: s3
         remote_options:
           anon: true
